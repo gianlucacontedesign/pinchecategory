@@ -56,7 +56,7 @@
                 }
                 
                 if ($logoPath): ?>
-                    <img src="<?php echo $logoPath; ?>" alt="<?php echo e(SITE_NAME); ?>" class="logo-img">
+                    <img src="<?php echo $logoPath; ?>" alt="<?php echo e(SITE_NAME); ?>" class="logo-img" style="width: 80px; height: auto;">
                 <?php else: ?>
                     <span class="logo-text"><?php echo e(SITE_NAME); ?></span>
                 <?php endif; ?>
