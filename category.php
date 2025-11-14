@@ -4,10 +4,16 @@ require_once __DIR__ . '/config/config.php';
 $categoryModel = new Category();
 $productModel = new Product();
 
+// DEBUG: Obtener todas las categorías para ver los slugs
+$allCategoriesDebug = $categoryModel->getAll(true);
+$slugsList = array_map(function($c) { return $c['slug']; }, $allCategoriesDebug);
+
 // Obtener categoría si se especifica
 $category = null;
-if (isset($_GET['slug'])) {
-    $category = $categoryModel->getBySlug($_GET['slug']);
+$requestedSlug = isset($_GET['slug']) ? trim($_GET['slug']) : null;
+
+if ($requestedSlug) {
+    $category = $categoryModel->getBySlug($requestedSlug);
 }
 
 // Parámetros de búsqueda y filtros
@@ -55,6 +61,21 @@ $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' 
     
     <section class="section">
         <div class="container">
+            <!-- DEBUG PANEL -->
+            <div style="background: #fff3cd; border: 2px solid #ffc107; border-radius: 8px; padding: 15px; margin-bottom: 20px; font-family: monospace; font-size: 12px;">
+                <strong>🔍 DEBUG - SLUGS EN BD:</strong>
+                <div style="margin-top: 10px;">
+                    <p><strong>Slug solicitado:</strong> <?php echo $requestedSlug ? '<span style="color: green;">✓ ' . e($requestedSlug) . '</span>' : '<span style="color: red;">✗ NINGUNO</span>'; ?></p>
+                    <p><strong>Categoría cargada:</strong> <?php echo $category ? '<span style="color: green;">✓ ' . e($category['name']) . ' (ID: ' . e($category['id']) . ')</span>' : '<span style="color: red;">✗ NULL</span>'; ?></p>
+                    <p><strong>Slugs disponibles en BD:</strong></p>
+                    <ul style="margin: 5px 0 0 20px; padding: 0;">
+                        <?php foreach ($slugsList as $slug): ?>
+                        <li><?php echo e($slug); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            
             <?php if ($category): ?>
             <h1 class="section-title"><?php echo e($category['name']); ?></h1>
             <?php if ($category['description']): ?>
