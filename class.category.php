@@ -27,7 +27,8 @@ class Category {
     }
     
     public function getBySlug($slug) {
-        $sql = "SELECT * FROM categories WHERE slug = ? AND is_active = 1";
+        // Hacer búsqueda case-insensitive y normalizar el slug
+        $sql = "SELECT * FROM categories WHERE LOWER(slug) = LOWER(?) AND is_active = 1 LIMIT 1";
         return $this->db->fetchOne($sql, [$slug]);
     }
     
