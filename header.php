@@ -64,14 +64,7 @@
             
             <!-- Acciones del Header -->
             <div class="header-actions-rosamonkey">
-                <!-- Botón Buscar Móvil -->
-                <button class="icon-btn search-toggle-mobile" aria-label="Buscar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                </button>
-                
+
                 <!-- Botón Usuario/Cuenta con Dropdown -->
                 <?php
                 // Verificar si hay un cliente logueado
@@ -254,18 +247,7 @@
     </nav>
     
     <!-- Búsqueda Móvil Expandible -->
-    <div class="mobile-search" id="mobile-search">
-        <div class="mobile-search-container">
-            <form action="<?php echo SITE_URL; ?>/search.php" method="GET">
-                <input type="search" 
-                       name="q" 
-                       placeholder="Buscar productos..." 
-                       class="mobile-search-input"
-                       value="<?php echo isset($_GET['q']) ? e($_GET['q']) : ''; ?>">
-                <button type="submit" class="mobile-search-btn">Buscar</button>
-            </form>
-        </div>
-    </div>
+
 </header>
 
 <?php
@@ -349,19 +331,6 @@ if (mobileMenuToggle) {
         this.classList.toggle('active');
         mainNav.classList.toggle('active');
         document.body.classList.toggle('menu-open');
-    });
-}
-
-// Mobile search toggle
-const searchToggleMobile = document.querySelector('.search-toggle-mobile');
-const mobileSearch = document.getElementById('mobile-search');
-
-if (searchToggleMobile) {
-    searchToggleMobile.addEventListener('click', function() {
-        mobileSearch.classList.toggle('active');
-        if (mobileSearch.classList.contains('active')) {
-            mobileSearch.querySelector('.mobile-search-input').focus();
-        }
     });
 }
 
