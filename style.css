@@ -1449,7 +1449,7 @@ select {
 .nav-dropdown:hover .megamenu {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: none;
 }
 
 .megamenu-container {
