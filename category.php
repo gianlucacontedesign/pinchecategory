@@ -55,16 +55,10 @@ $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' 
     
     <section class="section">
         <div class="container">
-            <?php if ($category): ?>
-            <h1 class="section-title"><?php echo e($category['name']); ?></h1>
-            <?php if ($category['description']): ?>
+            <h1 class="section-title">Nuestros Productos</h1>
             <p style="color: #737373; font-size: 1.125rem; margin-bottom: 2rem;">
-                <?php echo e($category['description']); ?>
+                Explora nuestra amplia variedad de insumos profesionales
             </p>
-            <?php endif; ?>
-            <?php else: ?>
-            <h1 class="section-title">Todos los Productos</h1>
-            <?php endif; ?>
             
             <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
                 <!-- Sidebar con categorías -->
