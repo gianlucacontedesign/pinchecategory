@@ -132,16 +132,7 @@ $pageTitle = SITE_NAME . ' - Insumos Profesionales para Tatuajes';
             <div class="categories-grid">
                 <?php foreach ($categories as $category): ?>
                 <a href="<?php echo SITE_URL; ?>/category.php?slug=<?php echo e($category['slug']); ?>" class="category-card-modern">
-                    <div class="category-image-wrapper">
-                        <?php if (!empty($category['image'])): ?>
-                            <img src="<?php echo SITE_URL; ?>/<?php echo e($category['image']); ?>" 
-                                 alt="<?php echo e($category['name']); ?>"
-                                 class="category-image">
-                        <?php else: ?>
-                            <div class="category-placeholder">
-                                <span class="category-icon">🏷️</span>
-                            </div>
-                        <?php endif; ?>
+                    <div class="category-image-wrapper" style="background-image: url('<?php echo ASSETS_URL; ?>/images/categories/<?php echo e($category['image_name']); ?>'); background-size: cover; background-position: center;">
                         <div class="category-overlay">
                             <h3 class="category-name"><?php echo e($category['name']); ?></h3>
                             <?php if ($category['description']): ?>
