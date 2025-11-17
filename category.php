@@ -6,8 +6,25 @@ $productModel = new Product();
 
 // Obtener categoría si se especifica
 $category = null;
-if (isset($_GET['slug'])) {
-    $category = $categoryModel->getBySlug($_GET['slug']);
+$currentSlug = null;
+$debugInfo = [];
+
+if (isset($_GET['slug']) && !empty($_GET['slug'])) {
+    $currentSlug = trim($_GET['slug']);
+    $debugInfo[] = "Slug recibido: " . $currentSlug;
+    
+    $category = $categoryModel->getBySlug($currentSlug);
+    
+    if ($category) {
+        $debugInfo[] = "✓ Categoría encontrada: " . $category['name'] . " (ID: " . $category['id'] . ")";
+    } else {
+        $debugInfo[] = "✗ Categoría NO encontrada para slug: " . $currentSlug;
+        $debugInfo[] = "Categorías disponibles:";
+        $allCatsForDebug = $categoryModel->getAll(true);
+        foreach ($allCatsForDebug as $c) {
+            $debugInfo[] = "  - " . $c['name'] . " (slug: " . $c['slug'] . ")";
+        }
+    }
 }
 
 // Parámetros de búsqueda y filtros
@@ -55,9 +72,21 @@ $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' 
     
     <section class="section">
         <div class="container">
-            <?php if ($category): ?>
+            <!-- DEBUG INFO -->
+            <?php if (!empty($debugInfo)): ?>
+            <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 0.5rem; padding: 1rem; margin-bottom: 2rem; font-family: monospace; font-size: 0.875rem;">
+                <strong style="color: #856404;">🔍 DEBUG INFO (Solo para desarrollo):</strong>
+                <ul style="margin: 0.5rem 0 0 1rem; color: #856404;">
+                    <?php foreach ($debugInfo as $info): ?>
+                    <li><?php echo e($info); ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
+            
+            <?php if ($category && !empty($category['name'])): ?>
             <h1 class="section-title"><?php echo e($category['name']); ?></h1>
-            <?php if ($category['description']): ?>
+            <?php if (!empty($category['description'])): ?>
             <p style="color: #737373; font-size: 1.125rem; margin-bottom: 2rem;">
                 <?php echo e($category['description']); ?>
             </p>
@@ -81,7 +110,7 @@ $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' 
                             <?php foreach ($allCategories as $cat): ?>
                             <li style="margin-bottom: 0.5rem;">
                                 <a href="<?php echo SITE_URL; ?>/category.php?slug=<?php echo e($cat['slug']); ?>" 
-                                   style="display: block; padding: 0.5rem; border-radius: 0.375rem; color: <?php echo $category && $category['id'] == $cat['id'] ? '#6b46c1' : '#404040'; ?>; font-weight: <?php echo $category && $category['id'] == $cat['id'] ? '600' : '400'; ?>;">
+                                   style="display: block; padding: 0.5rem; border-radius: 0.375rem; color: <?php echo $currentSlug && $currentSlug === $cat['slug'] ? '#6b46c1' : '#404040'; ?>; font-weight: <?php echo $currentSlug && $currentSlug === $cat['slug'] ? '600' : '400'; ?>;">
                                     <?php echo e($cat['name']); ?>
                                 </a>
                             </li>
