@@ -40,30 +40,27 @@ $totalPages = ceil($totalProducts / $itemsPerPage);
 $allCategories = $categoryModel->getAll(true);
 
 $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' . SITE_NAME;
+
+// Pasar la categoría al header para que lo use
+$currentCategory = $category;
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo e($pageTitle); ?></title>
-    <link rel="stylesheet" href="<?php echo ASSETS_URL; ?>/css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-    <?php include 'includes/header.php'; ?>
+<?php include 'header.php'; ?>
     
     <section class="section">
         <div class="container">
-            <?php if ($category): ?>
-            <h1 class="section-title"><?php echo e($category['name']); ?></h1>
+            <?php if ($category && isset($category['name'])): ?>
+            <h1 class="section-title" style="color: green; border-bottom: 3px solid green; padding-bottom: 10px;">
+                ✓ <?php echo e($category['name']); ?> (ID: <?php echo e($category['id']); ?>)
+            </h1>
             <?php if ($category['description']): ?>
             <p style="color: #737373; font-size: 1.125rem; margin-bottom: 2rem;">
                 <?php echo e($category['description']); ?>
             </p>
             <?php endif; ?>
             <?php else: ?>
-            <h1 class="section-title">Todos los Productos</h1>
+            <h1 class="section-title" style="color: red; border-bottom: 3px solid red; padding-bottom: 10px;">
+                ✗ Todos los Productos (Category es: <?php echo $category === null ? 'NULL' : 'no-null'; ?>)
+            </h1>
             <?php endif; ?>
             
             <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
