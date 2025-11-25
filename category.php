@@ -6,8 +6,10 @@ $productModel = new Product();
 
 // Obtener categoría si se especifica
 $category = null;
-if (isset($_GET['slug'])) {
-    $category = $categoryModel->getBySlug($_GET['slug']);
+$currentSlug = null;
+if (isset($_GET['slug']) && !empty($_GET['slug'])) {
+    $currentSlug = trim($_GET['slug']);
+    $category = $categoryModel->getBySlug($currentSlug);
 }
 
 // Parámetros de búsqueda y filtros
@@ -81,7 +83,7 @@ $pageTitle = $category ? $category['name'] . ' | ' . SITE_NAME : 'Productos | ' 
                             <?php foreach ($allCategories as $cat): ?>
                             <li style="margin-bottom: 0.5rem;">
                                 <a href="<?php echo SITE_URL; ?>/category.php?slug=<?php echo e($cat['slug']); ?>" 
-                                   style="display: block; padding: 0.5rem; border-radius: 0.375rem; color: <?php echo $category && $category['id'] == $cat['id'] ? '#6b46c1' : '#404040'; ?>; font-weight: <?php echo $category && $category['id'] == $cat['id'] ? '600' : '400'; ?>;">
+                                   style="display: block; padding: 0.5rem; border-radius: 0.375rem; color: <?php echo $currentSlug && $currentSlug == $cat['slug'] ? '#6b46c1' : '#404040'; ?>; font-weight: <?php echo $currentSlug && $currentSlug == $cat['slug'] ? '600' : '400'; ?>;">
                                     <?php echo e($cat['name']); ?>
                                 </a>
                             </li>
